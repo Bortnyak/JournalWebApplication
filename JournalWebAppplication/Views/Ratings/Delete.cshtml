@@ -1,0 +1,88 @@
+﻿@model JournalWebAppplication.Models.Ratings
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Ratings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Hours.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hours.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingTypes.RatingType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingTypes.RatingType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Students.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Students.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subjects.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subjects.SubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Group_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicOfLesson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TopicOfLesson)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

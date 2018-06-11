@@ -1,0 +1,82 @@
+﻿@model JournalWebAppplication.Models.Ratings
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ratings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Hours.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hours.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingTypes.RatingType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingTypes.RatingType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Students.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Students.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subjects.SubjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subjects.SubjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Group_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicOfLesson)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TopicOfLesson)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

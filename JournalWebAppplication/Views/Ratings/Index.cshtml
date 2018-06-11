@@ -1,0 +1,197 @@
+﻿@model JournalWebAppplication.Models.Ratings
+
+@{
+    ViewBag.Title = "Index";
+}
+@section MyScript{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnAdd').click(function () {
+                var count = 3, first_row = $('#Row2');
+                while (count-- > 0) first_row.clone().appendTo('#blacklistgrid');
+            });
+            $('#btnAddCol').click(function () {
+                $("#blacklistgrid tr").each(function () {
+                    $(this).append("<td><input type='text' /></td>");
+                    $('<input type="text" />').append("<p id='parText'></p>");
+                })
+            });
+        });
+        $(document).ready(function () {
+            $('input').keydown(function (e) {
+                if (e.keyCode === 13) {
+
+                    var input = $('input').attr('id').match(/[\d\w-_]+/g);
+                    var $inputId = "#" + $input;
+
+                    var $par = $('p').attr('id').match(/[\d\w-_]+/g);
+                    var $parId = '#' + $par;
+
+                    $($parId).append($($inputId).val());
+                    //$(this).hide();
+                }
+            });
+        });
+        $('#ajaxButton').click(function () {
+            alert("button is work!")
+
+            var Group_Id = @ViewBag.GroupId;
+            var HoursId = @ViewBag.HoursId;
+            var kindOfOccupation = $("#kind").val();
+            console.log(`groupId = ${Group_Id}`);
+            
+            //console.log($("#groupId").val());
+            var Ratings = [];
+            var table = $("table .ratingData");
+            var ratingTypeId = 0;
+            switch (kindOfOccupation) {
+                case "ПЗ":
+                    ratingTypeId = 1;
+                    break;
+                case "ЛЗ":
+                    ratingTypeId = 1;
+                    break;
+                case "ЛК":
+                    ratingTypeId = 1;
+                    break;
+                case "ЕКЗ":
+                    ratingTypeId = 2;
+                    break;
+            }
+            table.each((index, element) => {
+
+                var length = table.length;
+                
+                var Rating = 
+                    {
+                        'Group_Id': Group_Id,
+                        'Student_Id': $(element).attr("data-id"),        
+                        'TopicOfLesson': $("#them").val(),
+                        'Date': $("#date").val(),                        
+                        'Rating': $(element).val(),
+                        'RatingType_Id': ratingTypeId,
+                        'HoursId': HoursId
+                    };
+                Ratings.push(Rating);
+                
+                if (index === (length - 1))
+                {
+                    console.log(Ratings);
+
+                         $.ajax({
+                        type: "POST",
+                        url: "/Ratings/AddRecordsToJournal",
+                        data: JSON.stringify(Ratings),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: successFunc,
+                        error: errorFunc
+                    });
+                }
+            });
+       
+        });
+        function successFunc() {
+             alert("Дані збережено!!!!");
+        }
+        function errorFunc(errorData) {
+            alert('Помилка бляхя муха!!!!' + errorData.responseText);
+        }
+    </script>
+}
+
+@section ScriptForJournal {
+    <script type="text/javascript">
+
+    </script>
+}
+<h2>Index</h2>
+<p>HoursId</p>
+ <h1>@ViewBag.HoursId</h1>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div id="table_wrapper">
+    <p>GroupId</p>
+    <p id="groupId">@ViewBag.GroupId</p>
+        <table id="blacklistgrid" class="table-responsive" border="1">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Вид контролю / Тема заняття
+                    </th>
+                    @for (int t = 0; t < ViewBag.Topic.Length; t++)
+                    {
+                        <th>
+                            <span>@ViewBag.Topic[t]</span>
+                        </th>
+                    }
+                    <th>
+                        <input id="them" name="TopicOfLesson" type='text' />
+                        <p id="parText"></p>
+                    </th>
+                </tr>
+                <tr>
+                    <th rowspan="2">
+                        Прізвище та ім'я студента
+                    </th>
+                    <th>
+                        Вид заняття
+                    </th>
+                    <th>
+                        <input id="kind" name="KindOfOccupation" type='text' />
+                        <p id="parText"></p>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        Дата
+                    </th>
+                    @for (int d = 0; d < ViewBag.Date.Length; d++)
+                    {
+                    <th>
+                        <span>@ViewBag.Date[d]</span>
+                    </th>  
+                    }  
+                    <th>
+                        <input id="date" name="Date" type='date' />
+                        <p id="parText"></p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < ViewBag.Students.Length; i++)
+                {
+                        <tr class="student-col">
+                            <td colspan="2">
+                                <span class="studentName">@ViewBag.Students[i].FullName</span>
+                            </td>                               
+                               @for (int d = 0; d < ViewBag.Date.Length; d++)
+                               {
+                                   <td>
+                                    @for (int j = 0; j < ViewBag.Ratings.Length; j++)
+                                    {
+                                        //Не трогать - убьет !!!!!!!!!!!!!!!!!!!!!!!!!
+                                        if (ViewBag.Ratings[j].Rating != null && ViewBag.Students[i].Id == ViewBag.Ratings[j].Student_Id && ViewBag.Ratings[j].Date == ViewBag.Date[d])
+                                        {
+                                                <span>@ViewBag.Ratings[j].Rating</span>
+                                        }
+                                        else
+                                        {
+                                                <span></span>
+                                        }
+                                        //Блок не трогать закончился!!!!!!!!!!!!!!!!!!
+                                    }
+                                       </td>
+                                }
+                            <td>
+                                <input id="rating" class="ratingData" data-id="@ViewBag.Students[i].Id" name="Rating" type='text' />
+                                <p id="parText"></p>
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" id="btnAddCol">+</button>
+        <button id="ajaxButton" type="button">Отсылка набора данных</button>
+</div>

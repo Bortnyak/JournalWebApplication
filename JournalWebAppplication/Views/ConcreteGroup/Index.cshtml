@@ -1,0 +1,30 @@
+﻿@model IEnumerable<JournalWebAppplication.Models.Hours>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@ViewBag.GroupName група</h2>
+------<h4>@ViewBag.GroupId</h4> ------
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@foreach(var item in Model.Where(x => x.GroupId == ViewBag.GroupId).Distinct())
+{
+    <div>
+        <h4>
+            @Html.DisplayFor(modelItem => item.Subjects.SubjectName)
+        </h4>
+        <div>ЛК: @Html.DisplayFor(modelItem => item.LK)</div>
+        <div>ПЗ: @Html.DisplayFor(modelItem => item.PZ)</div>
+        <div>ЛЗ: @Html.DisplayFor(modelItem => item.LZ)</div>
+        <div id="button">
+            @Html.ActionLink("Перейти", "Index", controllerName: "Ratings", routeValues: new { groupId = ViewBag.GroupId, hoursId = item.Id }, htmlAttributes: null)
+        </div>
+    </div>   
+} 
+    <hr />
+
+
