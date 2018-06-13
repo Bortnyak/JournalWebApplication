@@ -39,25 +39,12 @@
             var HoursId = @ViewBag.HoursId;
             var kindOfOccupation = $("#kind").val();
             console.log(`groupId = ${Group_Id}`);
-            
+            console.log(kindOfOccupation);
             //console.log($("#groupId").val());
             var Ratings = [];
             var table = $("table .ratingData");
-            var ratingTypeId = 0;
-            switch (kindOfOccupation) {
-                case "ПЗ":
-                    ratingTypeId = 1;
-                    break;
-                case "ЛЗ":
-                    ratingTypeId = 1;
-                    break;
-                case "ЛК":
-                    ratingTypeId = 1;
-                    break;
-                case "ЕКЗ":
-                    ratingTypeId = 2;
-                    break;
-            }
+            var ratingTypeId = kindOfOccupation;
+            
             table.each((index, element) => {
 
                 var length = table.length;
@@ -73,9 +60,12 @@
                         'HoursId': HoursId
                     };
                 Ratings.push(Rating);
-                
+                //if (Ra) {
+
+                //}
                 if (index === (length - 1))
                 {
+
                     console.log(Ratings);
 
                          $.ajax({
@@ -137,10 +127,23 @@
                     </th>
                     <th>
                         Вид заняття
-                    </th>
+                    </th>    
+                            @for (int dt = 0; dt < ViewBag.Date.Length; dt++)
+                            {
+                                <th>
+                                    @ViewBag.RatingType[dt]
+                                </th>
+                            }                     
                     <th>
-                        <input id="kind" name="KindOfOccupation" type='text' />
-                        <p id="parText"></p>
+                        <select id="kind" class="form-control">
+                            <option value="1">ПЗ</option>
+                            <option value="2">ЛЗ</option>
+                            <option value="3">ЛК</option>
+                            <option value="4">ЗАЛ</option>
+                            <option value="5">ЕКЗ</option>
+                        </select>
+                        @*<input id="kind" name="KindOfOccupation" type='text' />
+                        <p id="parText"></p>*@
                     </th>
                 </tr>
                 <tr>
@@ -193,5 +196,5 @@
             </tbody>
         </table>
         <button type="button" id="btnAddCol">+</button>
-        <button id="ajaxButton" type="button">Отсылка набора данных</button>
+        <button id="ajaxButton" type="button">Зберегти</button>
 </div>
