@@ -40,7 +40,7 @@
             var kindOfOccupation = $("#kind").val();
             console.log(`groupId = ${Group_Id}`);
             console.log(kindOfOccupation);
-            //console.log($("#groupId").val());
+
             var Ratings = [];
             var table = $("table .ratingData");
             var ratingTypeId = kindOfOccupation;
@@ -60,9 +60,7 @@
                         'HoursId': HoursId
                     };
                 Ratings.push(Rating);
-                //if (Ra) {
 
-                //}
                 if (index === (length - 1))
                 {
 
@@ -75,7 +73,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: successFunc,
-                        error: errorFunc
+                        //error: errorFunc
                     });
                 }
             });
@@ -85,7 +83,7 @@
              alert("Дані збережено!!!!");
         }
         function errorFunc(errorData) {
-            alert('Помилка бляхя муха!!!!' + errorData.responseText);
+            alert('Помилка!!!!' + errorData.responseText);
         }
     </script>
 }
@@ -130,6 +128,7 @@
                     </th>    
                             @for (int dt = 0; dt < ViewBag.Date.Length; dt++)
                             {
+
                                 <th>
                                     @ViewBag.RatingType[dt]
                                 </th>
@@ -153,7 +152,7 @@
                     @for (int d = 0; d < ViewBag.Date.Length; d++)
                     {
                     <th>
-                        <span>@ViewBag.Date[d]</span>
+                        <span>@ViewBag.Date[d].ToString("d")</span>
                     </th>  
                     }  
                     <th>
@@ -188,13 +187,14 @@
                                        </td>
                                 }
                             <td>
-                                <input id="rating" class="ratingData" data-id="@ViewBag.Students[i].Id" name="Rating" type='text' />
+                                <input id="rating" class="ratingData" data-id="@ViewBag.Students[i].Id" name="Rating" type='text' pattern="\d [0-5]{1}"/>
                                 <p id="parText"></p>
                             </td>
                         </tr>
                 }
             </tbody>
         </table>
-        <button type="button" id="btnAddCol">+</button>
-        <button id="ajaxButton" type="button">Зберегти</button>
+        @*<button type="button" id="btnAddCol">+</button>*@
+        @*<button class="glyphicon-floppy-saved"  type="button">Зберегти</button>*@
+    <button type="button" class="btn btn-default glyphicon-ok" id="ajaxButton">Зберегти</button>
 </div>

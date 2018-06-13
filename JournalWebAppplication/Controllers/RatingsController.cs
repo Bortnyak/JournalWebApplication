@@ -14,6 +14,7 @@ namespace JournalWebAppplication.Controllers
     public class RatingsController : Controller
     {
         private JournalModelDB db = new JournalModelDB();
+
         //GET: Ratings
         public async Task<ActionResult> Index(int? Id, int? groupId, int? hoursId)
         {
@@ -24,7 +25,8 @@ namespace JournalWebAppplication.Controllers
             var ratings = db.Ratings.Where(x => x.HoursId == hoursId).ToArray();
             ViewBag.GroupId = groupId;
             ViewBag.HoursId = hoursId;
-            ViewBag.RatingType = db.Ratings.Where(x => x.HoursId == hoursId).Select(x => x.RatingTypes.RatingType).ToArray();
+           
+            ViewBag.RatingType = db.Ratings.Where(x => x.HoursId == hoursId).Select(r=>r.RatingTypes.RatingType).ToArray();
             ViewBag.Ratings = db.Ratings.Where(x => x.HoursId == hoursId).ToArray();
             ViewBag.Topic = db.Ratings.Where(x => x.HoursId == hoursId).Select(x => x.TopicOfLesson).Distinct().ToArray();
             return View();

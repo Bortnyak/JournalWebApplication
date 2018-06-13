@@ -221,6 +221,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PulpitsController.cs" />
     <Compile Include="Controllers\RatingsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,6 +328,10 @@
     <Content Include="Views\Ratings\Details.cshtml" />
     <Content Include="Views\Ratings\Edit.cshtml" />
     <Content Include="Views\Ratings\Index.cshtml" />
+    <Content Include="Views\Role\IndexRole.cshtml" />
+    <Content Include="Views\Role\CreateRole.cshtml" />
+    <Content Include="Views\Role\AssignRoleToUser.cshtml" />
+    <Content Include="Views\Account\RegisterRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

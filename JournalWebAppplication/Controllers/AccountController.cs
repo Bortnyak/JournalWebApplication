@@ -17,9 +17,11 @@ namespace JournalWebAppplication.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        ApplicationDbContext context;
 
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -166,6 +168,39 @@ namespace JournalWebAppplication.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult RegisterRole()
+        {
+            ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
+            ViewBag.UserName = new SelectList(context.Users.ToList(), "UserName", "UserName");
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterRole(RegisterViewModel model, ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = context.Users.Where(i => i.UserName == user.UserName).Select(s => s.Id);
+                string updateId = "";
+
+                foreach(var i in userId)
+                {
+                    updateId = i.ToString();
+                }
+
+                await this.UserManager.AddToRoleAsync(updateId, model.Name);
+
+                return RedirectToAction("Index", "Home");
             }
 
             // If we got this far, something failed, redisplay form
